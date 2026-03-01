@@ -1,0 +1,29 @@
+<div class="container">
+    <h2>Lista de Productos</h2>
+
+    <a href="/nuevo">
+        <button>Agregar Producto</button>
+    </a>
+
+    <br><br>
+
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Acciones</th>
+        </tr>
+
+        {{#each productos}}
+        <tr>
+            <td>{{this.nombre}}</td>
+            <td>${{this.precio}}</td>
+            <td>
+                <a href="/editar/{{this.id}}">Editar</a> |
+                <a href="/eliminar/{{this.id}}">Eliminar</a>
+            </td>
+        </tr>
+        {{/each}}
+
+    </table>
+</div>

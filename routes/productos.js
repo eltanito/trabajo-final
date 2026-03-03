@@ -1,18 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db/conexion');
+const db = require('../db/database');
 
-// LEER
 router.get('/', (req, res) => {
-    db.all('SELECT * FROM productos', [], (err, rows) => {
-        if (err) return res.send(err.message);
+    db.all('SELECT * FROM productos', (err, rows) => {
         res.render('productos', { productos: rows });
     });
 });
 
-// CREAR
-router.post('/crear', (req, res) => {
+router.get('/agregar', (req, res) => {
+    res.render('agregar');
+});
+
+router.post('/agregar', (req, res) => {
     const { nombre, descripcion, precio } = req.body;
+
     db.run(
         'INSERT INTO productos (nombre, descripcion, precio) VALUES (?, ?, ?)',
         [nombre, descripcion, precio],
@@ -20,9 +22,19 @@ router.post('/crear', (req, res) => {
     );
 });
 
-// EDITAR
+router.get('/editar/:id', (req, res) => {
+    db.get(
+        'SELECT * FROM productos WHERE id = ?',
+        [req.params.id],
+        (err, row) => {
+            res.render('editar', { producto: row });
+        }
+    );
+});
+
 router.post('/editar/:id', (req, res) => {
     const { nombre, descripcion, precio } = req.body;
+
     db.run(
         'UPDATE productos SET nombre=?, descripcion=?, precio=? WHERE id=?',
         [nombre, descripcion, precio, req.params.id],
@@ -30,8 +42,7 @@ router.post('/editar/:id', (req, res) => {
     );
 });
 
-// BORRAR
-router.get('/borrar/:id', (req, res) => {
+router.get('/eliminar/:id', (req, res) => {
     db.run(
         'DELETE FROM productos WHERE id=?',
         [req.params.id],

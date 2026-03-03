@@ -1,9 +1,11 @@
-<div class="container">
-    <h2>Contacto</h2>
+<h2>Contacto</h2>
 
-    <form method="POST">
-        <input type="email" name="email" placeholder="Tu email" required>
-        <textarea name="mensaje" placeholder="Escribe tu mensaje" required></textarea>
-        <button type="submit">Enviar</button>
-    </form>
-</div>
+{{#if ok}}
+<p>Mensaje enviado correctamente</p>
+{{/if}}
+
+<form method="POST" action="/contacto">
+    <input name="email" type="email" placeholder="Tu email" required>
+    <textarea name="mensaje" placeholder="Mensaje" required></textarea>
+    <button>Enviar</button>
+</form>
